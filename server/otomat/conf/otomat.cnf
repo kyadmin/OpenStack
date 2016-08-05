@@ -1,0 +1,17 @@
+[server]
+host = 172.16.209.110
+port = 18888
+my_ip = 172.16.209.110
+#report_path = /etc/otomat/report
+worker = 5
+[sql]
+host = 172.16.209.110
+user = otomat
+password = otomat
+defaultdb = otomat
+
+[client]
+host = 172.16.209.243
+port = 18889
+nic = eth0
+my_ip = 172.16.209.243

@@ -1,0 +1,15 @@
+<uwsgi>
+
+        <socket>127.0.0.1:8001</socket>
+
+        <chdir>/home/andre/repo/Python_Projects/django_prodject/mysite</chdir>
+
+        <pythonpath>./mysite</pythonpath>
+
+        <processes>10</processes>
+
+        <master>true</master>
+
+        <module>wsgi</module>
+
+</uwsgi>

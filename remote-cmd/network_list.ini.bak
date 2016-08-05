@@ -1,0 +1,9 @@
+[host_address]
+host=172.16.209.12,172.16.209.10
+
+[host_user]
+user_root=root
+
+
+[host_password]
+password=che001

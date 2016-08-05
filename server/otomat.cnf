@@ -1,0 +1,30 @@
+[server]
+host = 172.16.209.110
+port = 18888
+my_ip = 172.16.209.110
+#report_path = /etc/otomat/report
+worker = 5
+[sql]
+host = 172.24.0.2
+user = otomat
+password = otomat
+defaultdb = otomat
+[rrdtool]
+host = 172.16.209.12,172.24.0.21,172.16.209.22,172.16.209.23
+cpu = cpu.rrd
+mem = mem.rrd
+disk = disk.rrd
+network = nic.rrd
+dir = /etc/otomat/report/
+[graph]
+cpu = cpu.png
+mem = mem.png
+disk = disk.png
+network = nic.png
+
+
+[client]
+host = 172.16.209.243
+port = 18889
+nic = p2p1
+my_ip = 172.16.209.243

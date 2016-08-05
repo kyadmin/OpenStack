@@ -1,0 +1,265 @@
+--- 10.10.0.181 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--- 10.10.0.115 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--- 10.10.0.182 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--- 10.10.0.150 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2016ms
+--- 10.10.0.229 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 1999ms
+--- 10.10.0.241 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--- 10.10.0.178 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--- 10.10.0.205 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--- 10.10.0.147 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--- 10.10.0.223 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--- 10.10.0.226 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2016ms
+--- 10.10.0.164 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 1999ms
+--- 10.10.0.179 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 1999ms
+--- 10.10.0.146 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--- 10.10.0.232 ping statistics ---
+3 packets transmitted, 0 received, +2 errors, 100% packet loss, time 2009ms
+--- 10.10.0.200 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 1998ms
+--- 10.10.0.243 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2016ms
+--- 10.10.0.121 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--- 10.10.0.138 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 1999ms
+--- 10.10.0.134 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--- 10.10.0.192 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--- 10.10.0.237 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--- 10.10.0.153 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2016ms
+--- 10.10.0.242 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--- 10.10.0.120 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--- 10.10.0.148 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--- 10.10.0.211 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--- 10.10.0.109 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--- 10.10.0.118 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--- 10.10.0.133 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 1999ms
+--- 10.10.0.169 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--- 10.10.0.167 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2000ms
+--- 10.10.0.156 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2000ms
+--- 10.10.0.116 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--
+--- 10.10.0.191 ping statistics ---
+3 packets transmitted, 0 received, +2 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.195 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--
+--- 10.10.0.124 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--
+--- 10.10.0.188 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--
+--- 10.10.0.127 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.210 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.165 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2016ms
+--
+--- 10.10.0.176 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 1999ms
+--
+--- 10.10.0.225 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--
+--- 10.10.0.221 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--
+--- 10.10.0.219 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2016ms
+--
+--- 10.10.0.217 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 1999ms
+--
+--- 10.10.0.193 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--
+--- 10.10.0.186 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.168 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+--
+--- 10.10.0.214 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--
+--- 10.10.0.224 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.215 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2016ms
+--
+--- 10.10.0.189 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--
+--- 10.10.0.117 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--
+--- 10.10.0.140 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--
+--- 10.10.0.238 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--
+--- 10.10.0.157 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.202 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.123 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--
+--- 10.10.0.194 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 1999ms
+--
+--- 10.10.0.218 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--
+--- 10.10.0.143 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--
+--- 10.10.0.231 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.119 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--
+--- 10.10.0.159 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--
+--- 10.10.0.177 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.227 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.180 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.206 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.139 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+--
+--- 10.10.0.234 ping statistics ---
+3 packets transmitted, 0 received, 100% packet loss, time 2015ms
+--
+--- 10.10.0.187 ping statistics ---
+3 packets transmitted, 0 received, 100% packet loss, time 1999ms
+--
+--- 10.10.0.230 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+--
+--- 10.10.0.125 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.207 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2016ms
+--
+--- 10.10.0.154 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2016ms
+--
+--- 10.10.0.163 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+--
+--- 10.10.0.208 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--
+--- 10.10.0.190 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--
+--- 10.10.0.228 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 1999ms
+--
+--- 10.10.0.137 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--
+--- 10.10.0.239 ping statistics ---
+3 packets transmitted, 0 received, 100% packet loss, time 2015ms
+--- 10.10.0.122 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--- 10.10.0.196 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--- 10.10.0.236 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--- 10.10.0.166 ping statistics ---
+3 packets transmitted, 0 received, +2 errors, 100% packet loss, time 2015ms
+--- 10.10.0.213 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--- 10.10.0.199 ping statistics ---
+3 packets transmitted, 0 received, 100% packet loss, time 2014ms
+--- 10.10.0.183 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 1999ms
+--- 10.10.0.185 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--- 10.10.0.197 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--- 10.10.0.204 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--- 10.10.0.212 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--- 10.10.0.158 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2016ms
+--- 10.10.0.111 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 1999ms
+--- 10.10.0.233 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--- 10.10.0.114 ping statistics ---
+3 packets transmitted, 0 received, +2 errors, 100% packet loss, time 2015ms
+--- 10.10.0.209 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 1999ms
+--- 10.10.0.155 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 1999ms
+--- 10.10.0.170 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--- 10.10.0.145 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--- 10.10.0.216 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2014ms
+--- 10.10.0.220 ping statistics ---
+3 packets transmitted, 0 received, 100% packet loss, time 2015ms
+--- 10.10.0.198 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--- 10.10.0.151 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2015ms
+--- 10.10.0.203 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2016ms
+--- 10.10.0.235 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+--- 10.10.0.144 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+--- 10.10.0.142 ping statistics ---

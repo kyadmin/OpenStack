@@ -1,0 +1,9 @@
+[server]
+host = 172.16.209.243
+port = 18888
+my_ip = 172.16.209.243
+report_path = /tmp/
+[client]
+host = 172.16.209.243
+port = 18889
+my_ip = 172.16.209.243

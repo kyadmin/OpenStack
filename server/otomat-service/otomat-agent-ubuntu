@@ -1,0 +1,166 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:		otomat-agent
+# Required-Start:	$remote_fs $syslog
+# Required-Stop:	$remote_fs $syslog
+# Default-Start:	2 3 4 5
+# Default-Stop:		
+# Short-Description:	OpenBSD Secure Shell server
+### END INIT INFO
+
+set -e
+
+# /etc/init.d/otomat-agent-server: start and stop the OpenBSD "secure shell(tm)" daemon
+
+test -x /usr/bin/otomat-agent || exit 0
+
+umask 022
+
+. /lib/lsb/init-functions
+
+
+# Are we running from init?
+run_by_init() {
+    ([ "$previous" ] && [ "$runlevel" ]) || [ "$runlevel" = S ]
+}
+
+check_for_upstart() {
+    if init_is_upstart; then
+	exit $1
+    fi
+}
+
+check_for_no_start() {
+    # forget it if we're trying to start, and /etc/otomat/otomat_not_to_be_run exists
+    if [ -e /etc/ssh/sshd_not_to_be_run ]; then 
+	if [ "$1" = log_end_msg ]; then
+	    log_end_msg 0 || true
+	fi
+	if ! run_by_init; then
+	    log_action_msg "Otomat server not in use (/etc/ssh/otomat_not_to_be_run)" || true
+	fi
+	exit 0
+    fi
+}
+
+check_dev_null() {
+    if [ ! -c /dev/null ]; then
+	if [ "$1" = log_end_msg ]; then
+	    log_end_msg 1 || true
+	fi
+	if ! run_by_init; then
+	    log_action_msg "/dev/null is not a character device!" || true
+	fi
+	exit 1
+    fi
+}
+
+check_privsep_dir() {
+    # Create the PrivSep empty dir if necessary
+    if [ ! -d /var/run/otomat ]; then
+	mkdir /var/run/otomat
+	chmod 0755 /var/run/otomat
+    fi
+}
+
+check_config() {
+    if [ ! -e /etc/otomat/otomat.cnf ]; then
+	echo "Not find configure file!!!" || exit 1
+    fi
+}
+
+export PATH="${PATH:+$PATH:}/usr/bin:/bin"
+
+case "$1" in
+  start)
+	check_for_upstart 1
+	check_privsep_dir
+	check_for_no_start
+	check_dev_null
+	log_daemon_msg "Starting Otomat-agent  server" "otomat" || true
+	if start-stop-daemon --start --quiet --oknodo --pidfile /var/run/otomat-agent.pid --exec /usr/bin/otomat-agent /etc/otomat/otomat.cnf; then
+	    log_end_msg 0 || true
+	else
+	    log_end_msg 1 || true
+	fi
+	;;
+  stop)
+	check_for_upstart 0
+	log_daemon_msg "Stopping Otomat server" "otomat" || true
+	if start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/otomat-agent.pid; then
+	    log_end_msg 0 || true
+	else
+	    log_end_msg 1 || true
+	fi
+	;;
+
+  reload|force-reload)
+	check_for_upstart 1
+	check_for_no_start
+	check_config
+	log_daemon_msg "Reloading Otomat server's configuration" "otomat" || true
+	if start-stop-daemon --stop --signal 1 --quiet --oknodo --pidfile /var/run/otomat-agent.pid --exec /usr/bin/otomat-agent /etc/otomat/otomat.cnf; then
+	    log_end_msg 0 || true
+	else
+	    log_end_msg 1 || true
+	fi
+	;;
+
+  restart)
+	check_for_upstart 1
+	check_privsep_dir
+	check_config
+	log_daemon_msg "Restarting Otomat-agent server" "otomat" || true
+	start-stop-daemon --stop --quiet --oknodo --retry 30 --pidfile /var/run/otomat-agent.pid
+	check_for_no_start log_end_msg
+	check_dev_null log_end_msg
+	if start-stop-daemon --start --quiet --oknodo --pidfile /var/run/otomat-agent.pid --exec /usr/bin/otomat-agent /etc/otomat/otomat.cnf; then
+	    log_end_msg 0 || true
+	else
+	    log_end_msg 1 || true
+	fi
+	;;
+
+  try-restart)
+	check_for_upstart 1
+	check_privsep_dir
+	check_config
+	log_daemon_msg "Restarting OpenBSD Secure Shell server" "sshd" || true
+	RET=0
+	start-stop-daemon --stop --quiet --retry 30 --pidfile /var/run/sshd.pid || RET="$?"
+	case $RET in
+	    0)
+		# old daemon stopped
+		check_for_no_start log_end_msg
+		check_dev_null log_end_msg
+		if start-stop-daemon --start --quiet --oknodo --pidfile /var/run/otomat-agent.pid --exec /usr/bin/otomat-agent /etc/otomat/otomat.cnf; then
+		    log_end_msg 0 || true
+		else
+		    log_end_msg 1 || true
+		fi
+		;;
+	    1)
+		# daemon not running
+		log_progress_msg "(not running)" || true
+		log_end_msg 0 || true
+		;;
+	    *)
+		# failed to stop
+		log_progress_msg "(failed to stop)" || true
+		log_end_msg 1 || true
+		;;
+	esac
+	;;
+
+  status)
+	check_for_upstart 1
+	status_of_proc -p /var/run/otomat-agent.pid /usr/bin/otomat-agent  otomat && exit 0 || exit $?
+	;;
+
+  *)
+	log_action_msg "Usage: /etc/init.d/otomat-agent-server {start|stop|reload|force-reload|restart|try-restart|status}" || true
+	exit 1
+esac
+
+exit 0

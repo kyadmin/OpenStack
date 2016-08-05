@@ -1,0 +1,199 @@
+#_*_ coding: UTF-8 _*_
+import paramiko
+import sys,os,time
+import datetime
+import  ConfigParser
+
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+class files_conf:
+  def __init__(self,filename):
+    self.filename = filename
+    # 生产config 对象
+    self.conf = ConfigParser.ConfigParser()
+    # 用config对象读取配置文件
+    self.conf.read(self.filename)
+    # 以列表的形式返回section
+    s = self.conf.sections()
+
+
+  def username(self):
+    o_user = self.conf.get("host_user","user_root")
+    return o_user
+  def address(self):
+    o_address = self.conf.get("host_address","host")
+    return o_address
+  def password(self):
+    # 得到指定的sections, options
+    o_password = self.conf.get("host_password","password")
+    return  o_password
+
+class ssh_action(files_conf):
+    def __init__(self,filename=None,command=None,remotepath=None,localpath=None):
+	files_conf.__init__(self,filename)
+	inherit = files_conf(filename)
+	self.hostname = inherit.address()
+	self.username = inherit.username()
+	self.password = inherit.password()
+	self.command = command
+	self.remotepath = remotepath
+        self.localpath = localpath
+	#self.cmd = 'ifconfig'
+    def ssh_login_do(self):
+        hostname_list = list(self.hostname.split(','))
+	for l_hostname in hostname_list:
+	    paramiko.util.log_to_file('paramiko.log')
+	    s = paramiko.SSHClient()
+	    s.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+	    # 不允许连接不在konw_hosts文件重点主机
+	    # s.load_system_host_keys()
+	    s.connect(username=self.username,password=self.password,hostname=l_hostname)
+	    stdin, stdout, stderr = s.exec_command(self.command)
+	    print stdout.read()
+	    s.close()
+    def ssh_sftp_get_file(self):
+          port = 22
+	  hostname_list = list(self.hostname.split(','))
+          remote_path = os.path.isdir(self.remotepath)
+          if remote_path is not True:
+	    for l_hostname in hostname_list:
+              t =  paramiko.Transport((l_hostname,port))
+              t.connect(username=self.username,password=self.password)
+              sftp = paramiko.SFTPClient.from_transport(t)
+              print "Retrieving", self.remotepath
+	      print "Downloading  files Success %s" % datetime.datetime.now()
+              try:
+                sftp.get(self.remotepath,self.localpath)
+              except:
+                print "下载失败没有找到所需文件，请确定下载的类型是文件！！"
+            t.close()
+          else:
+            print "您输入的类型是目录，请输入下载类型为文件！！！"
+    def ssh_sftp_get_dir_files(self):
+        try:
+          # 判断self.localpath 是否为目录
+          local_dir = os.path.isdir(self.localpath)
+          if  local_dir is not True:
+            print "您输入的类型是文件，请输入目录！"
+          else:
+              if os.path.exists(self.localpath) is not True:
+                os.mkdir(self.localpath)
+                os.chdir(self.localpath)
+                port = 22
+	        hostname_list = list(self.hostname.split(','))
+	        for l_hostname in hostname_list:
+	          t =  paramiko.Transport((l_hostname,port))
+	          t.connect(username=self.username,password=self.password)
+	          sftp = paramiko.SFTPClient.from_transport(t)
+	          files = sftp.listdir(self.remotepath)
+	          for f in files:
+                    print ''
+                    print "#############################################################"
+		    print 'Beginning to Retrieving files %s ' % datetime.datetime.now()
+		    print "Downloading files:" , os.path.join(self.remotepath,f)
+                    sftp.get(os.path.join(self.remotepath,f),f)
+		    print "Downloading  files Success %s" % datetime.datetime.now()
+		    print ""
+                    print '############################################################'
+	          t.close()
+              else:
+                os.chdir(self.localpath)
+                port = 22
+	        hostname_list = list(self.hostname.split(','))
+	        for l_hostname in hostname_list:
+	          t =  paramiko.Transport((l_hostname,port))
+	          t.connect(username=self.username,password=self.password)
+	          sftp = paramiko.SFTPClient.from_transport(t)
+	          files = sftp.listdir(self.remotepath)
+	          for f in files:
+                    print ''
+                    print "#############################################################"
+		    print 'Beginning to Retrieving files %s ' % datetime.datetime.now()
+		    print "Downloading files:" , os.path.join(self.remotepath,f)
+                    sftp.get(os.path.join(self.remotepath,f),f)
+		    print "Downloading  files Success %s" % datetime.datetime.now()
+		    print ""
+                    print '############################################################'
+                  t.close()
+        except IOError:
+          print "没有找到目录"
+    def ssh_sftp_put_file(self):
+        try:
+          remote_path = os.path.isdir(self.remotepath)
+          port = 22
+	  hostname_list = list(self.hostname.split(','))
+	  for l_hostname in hostname_list:
+              t =  paramiko.Transport((l_hostname,port))
+              t.connect(username=self.username,password=self.password)
+              sftp = paramiko.SFTPClient.from_transport(t)
+              print "Retrieving", self.localpath
+              sftp.put(self.localpath,self.remotepath)
+	      print "Uploading  files Success %s" % datetime.datetime.now()
+              t.close()
+        except:
+          print "上传文件失败，请检查本地文件与远程目录是否存在或者远程目录是否有权限！！"
+    def ssh_sftp_put_files(self):
+        try:
+          local_path = os.path.isdir(self.localpath)
+          if local_path is not True:
+            print "请输入类型为目录！！"
+          else:
+            port = 22
+	    hostname_list = list(self.hostname.split(','))
+	    for l_hostname in hostname_list:
+              #print l_hostname
+              #print port
+              #print self.localpath
+              #print self.remotepath
+              t =  paramiko.Transport((l_hostname,port))
+              t.connect(username=self.username,password=self.password)
+              sftp = paramiko.SFTPClient.from_transport(t)
+	      #files = sftp.listdir(self.localpath)
+              files = os.listdir(self.localpath)
+	      for f in files:
+                print ''
+                print "#############################################################"
+		print 'Beginning to Retrieving files %s ' % datetime.datetime.now()
+		print "Uploading files:" , os.path.join(self.remotepath,f)
+                sftp.put(os.path.join(self.localpath,f),os.path.join(self.remotepath,f))
+		print "Uploading  files Success %s" % datetime.datetime.now()
+		print ""
+                print '############################################################'
+              t.close()
+        except:
+          print "上传文件失败，请检查本地文件与远程目录是否存在或者远程目录是否有权限！！"
+
+
+
+if __name__ == '__main__':
+    ##########
+    #H=ssh_action('network_list.ini','df')
+    #H.ssh_login_do()
+    ################
+    #H=ssh_action(filename='network_list.ini',remotepath='/tmp/test',localpath='/tmp/test')
+    #H.ssh_sftp_get_dir_files()
+    ##########
+    #H=ssh_action(filename='network_list.ini',remotepath='/tmp/test/1',localpath='/tmp/test/1')
+    #H.ssh_sftp_get_file()
+    #################
+    #H=ssh_action(filename='network_list.ini',remotepath='/tmp/test/',localpath='/tmp/test/')
+    #H.ssh_sftp_put_files()
+	from optparse import OptionParser
+	parser = OptionParser(version="0.1beta")
+	parser.add_option("-c","--command",dest="cmd")
+	parser.add_option("-f","--filename",dest="filename")
+	parser.add_option("-l","--localpath",dest="localpath")
+	parser.add_option("-r","--remotepath",dest="remotepath")
+(options, args) = parser.parse_args()
+#print 'options: %s, args: %s' % (options, args)
+ssh_do = ssh_action(filename=options.filename,command=options.cmd,localpath=options.localpath,remotepath=options.remotepath)
+#print 'ssh_do returned %s' % ssh_do.ssh_login_do()
+#ssh_do.ssh_login_do()
+#ssh_do.ssh_sftp_get_file()
+#ssh_do.ssh_sftp_get_dir_files()
+#ssh_do.ssh_sftp_put_file()
+ssh_do.ssh_sftp_put_files()
+sys.exit
+
+

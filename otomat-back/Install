@@ -1,0 +1,88 @@
+#!/bin/bash
+
+# This is installation otomat service with the client script
+if [ "$#" = "1" ];then
+    #
+    mkdir /etc/otomat 
+    cp otomat.cnf /etc/otomat
+    chown -R 755 /etc/otomat
+    #
+    system_release=`cat /etc/redhat-release|awk '{print $1}' 2> /dev/null`
+    os_release=`cat /etc/issue|awk '{print $1}' 2> /dev/null`
+    server_centos()
+    {
+         cp otomat-bin/otomat_bin-server /usr/bin/otomat_server
+         cp otomat-bin/otomat_bin_report-server /usr/bin/otomat_report_server
+         cp otomat-service/otomat-server-centos /etc/init.d/otomat-server
+         cp otomat-service/otomat-report-server-centos /etc/init.d/otomat-report-server
+
+    }
+    server_ubuntu()
+    {
+         cp otomat-bin/otomat_bin-server /usr/bin/otomat_server
+         cp otomat-bin/otomat_bin_report-server /usr/bin/otomat_report_server
+         cp otomat-service/otomat-server-ubuntu /etc/init.d/otomat-server
+         cp otomat-service/otomat-report-server-ubuntu /etc/init.d/otomat-report-server
+
+    }
+    client_centos()
+    {
+         cp otomat-bin/otomat_agent-server /usr/bin/otomat-agent
+         cp otomat-service/otomat-agent-centos /etc/init.d/otomat-agent-server
+
+    }
+    client_ubuntu()
+    {
+         cp otomat-bin/otomat_agent-server /usr/bin/otomat-agent
+         cp otomat-service/otomat-agent-ubuntu /etc/init.d/otomat-agent-server
+
+    }
+    case $1 in
+        server )
+	   if [ "$system_release" = "CentOS" ];then
+    	    Python_Path="/usr/lib/python2.6/site-packages"
+    	    #
+    	    cp -arp ../otomat  $Python_Path
+    	    echo "export PYTHONPATH='${Python_Path}/otomat':\$PYTHONPATH" >> /etc/profile
+    	    source /etc/profile
+    	    #
+	    server_centos && exit 0
+	   elif [ "$os_release" = "Ubuntu" ];then
+    	    Python_Path="/usr/lib/python2.7"
+    	     #
+    	    cp -arp ../otomat  $Python_Path
+    	    echo "export PYTHONPATH='${Python_Path}/otomat':\$PYTHONPATH" >> /etc/profile
+    	    source /etc/profile
+    #
+            server_ubuntu && exit 0
+	   else
+	    echo "Unsupported Operating System!!!"
+	   fi
+            ;;
+        client)
+	   if [ "$system_release" = "CentOS" ];then
+    	    Python_Path="/usr/lib/python2.6/site-packages"
+    	    #
+    	    cp -arp ../otomat  $Python_Path
+    	    echo "export PYTHONPATH='${Python_Path}/otomat':\$PYTHONPATH" >> /etc/profile
+    	    source /etc/profile
+    	    #
+            client_centos  && exit 0
+	   elif [ "$os_release" = "Ubuntu" ];then
+    	    Python_Path="/usr/lib/python2.7"
+     	    #
+    	    cp -arp ../otomat  $Python_Path
+    	    echo "export PYTHONPATH='${Python_Path}/otomat':\$PYTHONPATH" >> /etc/profile
+    	    source /etc/profile
+    	    #
+	    client_ubuntu && exit 0
+	   else
+	    echo "Unsupported Operating System!!!"
+	   fi
+            ;;
+    esac
+else
+    echo "Usage: $0 Name"
+    echo "Ex: $0 {server|client}"
+fi
+

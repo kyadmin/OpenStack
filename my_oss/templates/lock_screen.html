@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)http://dreamsky.github.io/main/blog/metronic-bootstrap/extra_lock.html -->
+<html lang="en"><!--<![endif]--><!-- BEGIN HEAD --><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	
+
+	<title>Metronic | Extra - Lock Screen</title>
+
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+	<meta content="" name="description">
+
+	<meta content="" name="author">
+
+	<!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+	<link href="/static/css/oss/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+	<link href="/static/css/oss/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
+
+	<link href="/static/css/oss/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	<link href="/static/css/oss/style-metro.css" rel="stylesheet" type="text/css">
+
+	<link href="/static/css/oss/style.css" rel="stylesheet" type="text/css">
+
+	<link href="/static/css/oss/style-responsive.css" rel="stylesheet" type="text/css">
+
+	<link href="/static/css/oss/default.css" rel="stylesheet" type="text/css" id="style_color">
+
+	<link href="/static/css/oss/uniform.default.css" rel="stylesheet" type="text/css">
+
+	<!-- END GLOBAL MANDATORY STYLES -->
+
+	<!-- BEGIN PAGE LEVEL STYLES -->
+
+	<link href="/static/css/oss/lock.css" rel="stylesheet" type="text/css">
+
+	<!-- END PAGE LEVEL STYLES -->
+
+	<link rel="shortcut icon" href="/static/images/favicon.ico">
+
+</head>
+
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+
+<body>
+
+	<div class="page-lock">
+
+		<div class="page-logo">
+
+			<a class="brand" href="/">
+
+{#			<img src="/static/images/logo.png" alt="logo">#}
+
+			</a>
+
+		</div>
+
+		<div class="page-body">
+
+{#			<img class="page-lock-img" src="/static/images/users/lhf.jpg" alt="">#}
+
+			<div class="page-lock-info">
+
+				<h1>用户名: {{ username }}</h1>
+
+				<span>{{ email }} </span>
+
+				<span><em>屏幕锁住</em></span>
+
+				<form class="form-search" action="{% url 'acount_login' %}" method="post">{% csrf_token %}
+
+					<div class="input-append">
+
+						<input type="hidden" name="username" value="{{ username }}">
+						<input type="password" name="password" class="m-wrap" placeholder="密码">
+
+						<button type="submit" class="btn blue icn-only"><i class="m-icon-swapright m-icon-white"></i></button>
+
+					</div>
+
+					<div class="relogin">
+
+						<a href="{% url 'acount_login' %}">切换用户</a>
+                        		<div class="page-footer">
+
+			                        Copyright © 2013-2016, che001.com 版权所有 京ICP备12013228号-2
+
+		                        </div>
+
+					</div>
+
+				</form>
+
+			</div>
+
+		</div>
+
+
+
+	</div>
+
+	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+
+	<!-- BEGIN CORE PLUGINS -->
+
+	<script type="text/javascript" async="" src="/static/js/oss/dc.js"></script><script src="/static/js/oss/jquery-1.10.1.min.js" type="text/javascript"></script>
+
+	<script src="/static/js/oss/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+
+	<!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+
+	<script src="/static/js/oss/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+
+	<script src="/static/js/oss/bootstrap.min.js" type="text/javascript"></script>
+
+	<!--[if lt IE 9]>
+
+	<script src="/static/js/oss/excanvas.min.js"></script>
+
+	<script src="/static/js/oss/respond.min.js"></script>
+
+	<![endif]-->
+
+	<script src="/static/js/oss/jquery.slimscroll.min.js" type="text/javascript"></script>
+
+	<script src="/static/js/oss/jquery.blockui.min.js" type="text/javascript"></script>
+
+	<script src="/static/js/oss/jquery.cookie.min.js" type="text/javascript"></script>
+
+	<script src="/static/js/oss/jquery.uniform.min.js" type="text/javascript"></script>
+
+	<!-- END CORE PLUGINS -->
+
+	<!-- BEGIN PAGE LEVEL PLUGINS -->
+
+	<script src="/static/js/oss/jquery.backstretch.min.js" type="text/javascript"></script>
+
+	<!-- END PAGE LEVEL PLUGINS -->   
+
+	<script src="/static/js/oss/app.js"></script>
+
+	<script src="/static/js/oss/lock.js"></script>
+
+	<script>
+
+		jQuery(document).ready(function() {    
+
+		   App.init();
+
+		   Lock.init();
+
+		});
+
+	</script>
+
+	<!-- END JAVASCRIPTS -->
+
+<script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-37564768-1']);  _gaq.push(['_setDomainName', 'keenthemes.com']);  _gaq.push(['_setAllowLinker', true]);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script>
+
+<!-- END BODY -->
+
+<div class="backstretch" style="left: 0px; top: 0px; overflow: hidden; margin: 0px; padding: 0px; height: 967px; width: 1808px; z-index: -999999; position: fixed;"><img src="/static/images/1.jpg" style="position: absolute; display: none; margin: 0px; padding: 0px; border: none; width: auto; height: 967px; max-width: none; z-index: -999999; top: 0px;"></div></body></html>

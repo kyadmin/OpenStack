@@ -1,0 +1,427 @@
+#!/usr/bin/env python
+# coding=utf-8
+# created by hansz
+import os
+import random
+import threading_pool
+import novaclient.client as nvclient
+import cinderclient.client as cinclient
+import threading
+
+import shutil
+
+import config,log_record
+import sys, time
+import pickle
+import multiprocessing
+
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
+
+creds = config.k1.get_nova_creds
+# creds =  menu.k1.get_nova_creds
+# print creds
+# nova = nvclient.Client('2.2',**creds)
+# server_list = nova.servers.list()
+# print nova.volumes.get_server_volumes('b9bf7f77-bc7e-4b4c-841a-0f23cebe21ea')
+# cinder =  cinclient.Client('2',**creds)
+# v = cinder.volumes
+# vlist =  v.list()
+
+
+    # print help(i.attach)
+    # i.attach("7c6bc4ae-2935-432a-b6e1-c6813043c27a","/dev/sdb")
+
+# nova2 = nvclient.Client('2.2',**creds)
+# cinder2 = cinclient.Client('2',**creds)
+# Volumes_manager =  nova2.volumes
+# server_list = nova2.servers.list()
+# for vm in server_list:
+#     print vm.id
+#     print vm._info['os-extended-volumes:volumes_attached']
+#     server_volumes = Volumes_manager.get_server_volumes(vm.id)
+#     for volume  in  server_volumes[0:1]:
+#         print volume.id
+#         # 挂载的设备
+#         device =  volume.device
+#         # 卸载
+#         print  nova2.volumes.delete_server_volume(vm.id,volume.id)
+#         # 关机
+#         vm.stop()
+#         for i in range(5):
+#             print vm.status
+#             time.sleep(1)
+#
+#         # 挂载
+#         print nova2.volumes.create_server_volume(vm.id,volume.id,device)
+#
+#         # 开机
+#         print vm.start()
+#         time.sleep(1)
+#         print vm.status
+
+
+# print cinder2.volumes.get("5578aac3-a975-4746-a4a1-8c3495e74712")._info["attachments"]
+# print nova2.servers.get("b9705c0e-2f71-4d18-9972-aba3844619f4")._info["os-extended-volumes:volumes_attached"]
+# print dir(nova2.volumes)
+# print nova2.volumes.get_server_volume("401196c0-2941-4f6e-9298-4e31c66d8f57","5578aac3-a975-4746-a4a1-8c3495e74712")
+# print nova2.volumes.get_server_volumes("401196c0-2941-4f6e-9298-4e31c66d8f57")
+# print nova2.volumes.delete_server_volume("b9705c0e-2f71-4d18-9972-aba3844619f4","5578aac3-a975-4746-a4a1-8c3495e74712")
+
+
+class  Nova(object):
+    def __init__(self,version,cinder1,**kwargs):
+        self.version = version
+        self.kwargs = kwargs
+        self.nova = nvclient.Client(version,**kwargs)
+        self.cinder1 = cinder1
+    def get_server_list(self):
+        return  self.nova.servers.list()
+
+    def get_server(self,server_id):
+        self.server_list = self.nova.servers.list()
+        for server_obj in self.server_list:
+            if server_obj.id == server_id:
+                return server_obj
+    def start_server(self,server_id):
+        server = self.get_server(server_id)
+        try:
+            server.start()
+            start_time = time.clock()
+            #while self.get_server_status(server_id) == ( "SHUTOFF" or "Shutoff"):
+                # print u"正在启动%s"%self.get_server_status(server_id)
+	#	end_time = time.clock()
+         #       run_time = end_time - start_time
+          #      if run_time>10:
+           #         log_record.error_logging(u"Time out  20s... %s" %server_id)
+            #    else:
+             #       print u"正在启动%s   "%server.name
+              #      time.sleep(1)
+
+            print u"\n%s 启动成功"%server.name
+        except Exception as e:
+            log_record.error_logging(u"server%s 启动失败%s"%(server_id,e))
+            return False
+
+    def stop_server(self,server_id):
+        server = self.get_server(server_id)
+        try:
+            server.stop()
+            start_time = time.clock()
+            while self.get_server_status(server_id) == ("ACTIVE" or "Active"):
+                run_time = time.clock() - start_time
+                if run_time>20:
+                    log_record.error_logging(u"Timeout 20s .%s"%server_id)
+                else:
+                    print "%s" % (u"正在关闭%s  " % server.name)
+                    print self.get_server_status(server_id)
+            print u" \n%s 关闭成功"%server.name
+        except Exception as e:
+            log_record.error_logging(u"server %s 关闭失败%s"%(server_id,e))
+            return False
+
+    def get_server_status(self, server_id):
+        server  = self.get_server(server_id)
+        status = server.status
+        return status
+
+    def detach_volume(self,server_id,volume_id):
+        try:
+            self.nova.volumes.delete_server_volume(server_id,volume_id)
+            print u"卸载云盘 %s " % volume_id,self.cinder1.volume_status(volume_id)
+            while self.cinder1.volume_status(volume_id) == ("In-Use" or "in-use" or "detaching"):
+                print u"正在卸载%s  "%volume_id
+                time.sleep(1)
+            print u'\n%s卸载成功'%volume_id
+            return True
+        except Exception as e:
+            print u'卸载云盘失败%s' % volume_id,e
+            time.sleep(5)
+            volume_status = self.cinder1.volume_status(volume_id)
+            if volume_status == "in-use":
+		pass
+                #self.detach_volume(server_id,volume_id)
+            else:
+                print "actually success"
+                return True
+            return False
+    def attach_volume(self,server_id,volume_id,device,index):
+        try:
+            # print index
+            # while index==0 and  len(self.nova.volumes.get_server_volumes(server_id))!=0:
+                # 卸载关机之后,volume的信息可能不会立即同步，需要等一会。
+                # print "waiting volume info update ."
+
+            self.nova.volumes.create_server_volume(server_id,volume_id,device)
+            print u'挂载云盘%s'%volume_id,self.cinder1.volume_status(volume_id)
+	    start = time.clock()
+            while self.cinder1.volume_status(volume_id) != ("in-use" or "In-Use" ):
+                print u"正在挂载%s" % volume_id
+		end_time  = time.clock()
+		print end_time - start
+                if end_time - start > 2:
+		    print u"挂载超时,跳过"
+		    break
+		   
+		    
+
+            print u'\n%s挂载成功'%volume_id
+            return True
+        except Exception as e:
+            print u'挂载%s失败'%volume_id,e
+            if self.cinder1.volume_status(volume_id)=="in-use":
+                return True
+            else:
+                #self.attach_volume(server_id,volume_id,device,index)
+		pass
+            return False
+
+class Cinder(object):
+    def __init__(self,version,**kwargs):
+        self.cinder = cinclient.Client(version,**kwargs)
+        self.volumes = self.cinder.volumes
+        self.volume_list = self.volumes.list()
+        # print self.volume_list
+
+
+    def get_volume(self,volume_id=None):
+        for volume in self.volume_list:
+            if  volume_id ==  volume.id:
+                return volume
+
+    # 获取volume信息,按照主机组。
+    def get_attachments(self):
+        # attachments = {serverid: [attachvolume2,attachvolume2],}
+        all_server_attachments = {}
+        # print self.volume_list,"volume_list"
+        for volume in self.volume_list:
+            if len(volume.attachments)==0:continue
+            volume_info =  volume.attachments[0]
+            # print volume_info,"volume_info"
+            # print volume_info["server_id"]
+            if volume_info[u"server_id"]  not in  all_server_attachments.keys():
+                #     如果之前没有这个主机
+                all_server_attachments[volume_info["server_id"]] = []
+            all_server_attachments[volume_info["server_id"]].append(volume_info)
+            # print "all",all_server_attachments
+        return  all_server_attachments
+
+    # def detach_volume(self,server_id,volume_id):
+    #     volume = self.get_volume(volume_id)
+    #     # volume.detach()
+    #     try:
+    #         volume.detach()
+    #         # self.volumes.delete_server_volume(server_id,volume_id)
+    #         print u"卸载云盘 %s "%volume_id
+    #         print self.volume_status(volume_id)
+    #         while self.volume_status(volume_id) == ("In-Use" or "in-use"):
+    #             print u"正在卸载",self.volume_status(volume_id)
+    #         print u'卸载成功'
+    #         return True
+    #     except Exception as e:
+    #         print u"卸载云盘%s失败"%volume_id,e,self.volume_status(volume_id)
+    #         return False
+
+    # def attach_volume(self,server_id,volume_id ,device):
+    #     volume = self.get_volume(volume_id)
+    #     try:
+    #         volume.attach(server_id,device)
+    #         # self.volumes.create_server_volume(server_id,volume_id,device)
+    #         print u"挂载云盘%s" % volume_id
+    #         while self.volume_status(volume_id) != ("in-use" or "In-Use"):
+    #             print u"正在挂载",self.volume_status(volume_id)
+    #         print u"挂载成功"
+    #         return True
+    #     except Exception as e:
+    #         print u'挂载云盘%s失败'%volume_id
+    #         return False
+
+    def volume_status(self,volume_id):
+        # status 要实时的，所以要重新获取一遍值
+        self.volumes = self.cinder.volumes
+        self.volume_list = self.volumes.list()
+
+        for volume in self.volume_list:
+            if  volume_id ==  volume.id:
+                return volume.status
+
+
+
+# for server in all_server:
+#     break_status = False
+#     print "server_host name is %s , id is %s "%(server.name,server.id)
+#     print  server.id ,server_cinder_info.keys()
+#     if server_cinder_info==[] or server.id not in  server_cinder_info.keys():
+#         #     该租户没有挂载过云盘 直接重启
+#         print u"%s该主机没有挂载云盘，直接重启"%server.name
+#         server_status =  nova1.get_server_status(server.id)
+#         if server_status  == u"SHUTOFF":
+#             nova1.start_server(server.id)
+#         else:
+#             nova1.stop_server(server.id)
+#             nova1.start_server(server.id)
+#         continue
+#     server_volume = server_cinder_info[server.id]
+#     for volume in server_volume:
+#         #     卸载云盘
+#         detach_status = nova1.detach_volume(server.id,volume["volume_id"])
+#         if not detach_status:
+#             print u"云盘卸载失败,跳过此机器重启,请查看日志"
+#             break_status = True
+#
+#     if  break_status:break
+#
+# # 关机
+#     nova1.stop_server(server.id)
+# # # 挂载云盘
+#     for index,volume in enumerate(server_volume):
+#         # cinder1.attach_volume(volume["server_id"], volume["device"], volume["volume_id"])
+#         if cinder1.volume_status(volume["volume_id"])=="in-use":
+#             print u"云盘已经挂载，异常"
+#             break_status = True
+#             break
+#         attach_status = nova1.attach_volume(volume["server_id"],volume["volume_id"],volume["device"],index)
+#         if not attach_status:
+#             print u"云盘挂载失败,跳过此机器启动,请查看日志"
+#             break_status = True
+#         print cinder1.volume_status(volume["volume_id"])
+#
+#     if break_status: break
+# # 开机
+#     nova1.start_server(server.id)
+
+
+def stop_vm(server,server_cinder_info,nova1,cinder1):
+    break_status = False
+    server_status = nova1.get_server_status(server.id)
+    print u"server_host name is %s , id is %s " % (server.name, server.id)
+
+    if server_cinder_info == [] or server.id not in server_cinder_info.keys():
+        #     该租户没有挂载过云盘 直接重启
+        print  u"%s该主机没有挂载云盘，直接关机" % server.name
+        if server_status == u"SHUTOFF":
+            # nova1.start_server(server.id)
+            break_status = True
+        else:
+            nova1.stop_server(server.id)
+            # nova1.start_server(server.id)
+            break_status = True
+    if break_status:exit("error ")
+    server_volume = server_cinder_info[server.id]
+    for volume in server_volume:
+        #     卸载云盘
+        detach_status = nova1.detach_volume(server.id, volume["volume_id"])
+        if not detach_status:
+            log_record.error_logging( u"云盘卸载失败,跳过此机器重启,请查看日志%s"%(server.id))
+            break_status = True
+
+    #if break_status: exit("error ")
+
+    # 关机
+    if server_status != u"SHUTOFF":
+        nova1.stop_server(server.id)
+
+
+def start_vm(server,server_cinder_info,nova1,cinder1):
+#def start_vm(args):
+ #   server,server_cinder_info,nova1,cinder1=args
+    # 挂载云盘
+    
+    break_status = False
+    server_status = nova1.get_server_status(server.id)
+    if server_cinder_info == [] or server.id not in server_cinder_info.keys():
+   # if True:
+        #     该租户没有挂载过云盘 直接启动
+        print  u"%s该主机没有挂载云盘，直接启动" % server.name
+
+        if server_status == u"SHUTOFF":
+            nova1.start_server(server.id)
+            break_status = True
+        else:
+            break_status = True
+
+            # nova1.stop_server(server.id)
+            # nova1.start_server(server.id)
+            # break_status = True
+    if break_status: exit("error ")
+    server_volume = server_cinder_info[server.id]
+    time.sleep(random.random())
+    for index, volume in enumerate(server_volume):
+        # cinder1.attach_volume(volume["server_id"], volume["device"], volume["volume_id"])
+        if cinder1.volume_status(volume["volume_id"]) == "in-use":
+            print u"云盘已经挂载，异常,直接启动%s"%server_status
+            if server_status == u"SHUTOFF":
+                nova1.start_server(server.id)
+            break_status = True
+            break
+        # print cinder1.volume_status(volume["volume_id"])
+
+        attach_status = nova1.attach_volume(volume["server_id"], volume["volume_id"], volume["device"], index)
+        if not attach_status:
+            print u"云盘挂载失败,跳过此机器启动,请查看日志"
+            break_status = True
+        # print cinder1.volume_status(volume["volume_id"])
+    if break_status: exit("error ")
+    # 开机
+    nova1.start_server(server.id)
+
+def restart_vm(server,server_cinder_info,nova1,cinder1):
+    stop_vm(server,server_cinder_info,nova1,cinder1)
+    start_vm(server,server_cinder_info,nova1,cinder1)
+
+
+
+def operator(creds):
+    if len(sys.argv) ==2:
+        if sys.argv[1]=="start":
+            func = start_vm
+        elif sys.argv[1]=="stop":
+            if os.path.exists('%s.pkl' % creds["project_id"]):
+                c_time = time.strftime('%Y-%m-%d_%H_%M_%S',time.localtime(time.time()))
+                old_name = '%s.pkl%s' %(creds["project_id"],c_time)
+                os.rename('%s.pkl' % creds["project_id"],old_name)
+                if not os.path.exists("old_pkl"):os.mkdir("old_pkl")
+                shutil.move(old_name,"old_pkl")
+            func = stop_vm
+        else:
+            func = restart_vm
+            os.remove('%s.pkl'%creds["project_id"])
+    cinder1 = Cinder("2",**creds)
+    nova1 = Nova("2",cinder1,**creds)
+    server_cinder_info = cinder1.get_attachments()
+    if os.path.exists('%s.pkl'%creds["project_id"]):
+        file1 = file('%s.pkl' % creds["project_id"], "rb")
+        server_cinder_info = pickle.load(file1)
+    else:
+        file1 = file('%s.pkl'%creds["project_id"],"wb")
+        pickle.dump(server_cinder_info,file1,True)
+    all_server = nova1.get_server_list()
+
+
+    my_tp = threading_pool.Threading_pools(5)
+    for server in all_server:
+        t = threading.Thread(target=func,args =(server,server_cinder_info,nova1,cinder1))
+        t.start()
+        # restart_vm(server,server_cinder_info,nova1,cinder1)
+        #args_list = [server,server_cinder_info,nova1,cinder1]
+        #my_tp.append_job(func,args_list)
+       # func(server,server_cinder_info,nova1,cinder1)   
+    #my_tp.wait_allcomplete()
+    #while my_tp.result_queue.qsize():
+    #    print my_tp.result_queue.get(),"restult"
+# operator(creds)
+start_time = time.clock()
+for creds in config.user_creds_list:
+    print creds
+    operator(creds,)
+    #t = threading.Thread(target=operator,args=(creds,))
+    #t.start()
+
+end_time = time.clock()
+# for i in range(100):
+#     print threading.activeCount()
+while threading.activeCount() - 1 !=0:
+    end_time = time.clock()
+print  "Process is run %f" %(end_time - start_time)
+
+

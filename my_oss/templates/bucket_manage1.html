@@ -1,0 +1,200 @@
+{% extends 'oss.html' %}
+
+{% block head-extension-oss0 %}
+{#    <link href="/static/css/upload-plugin/bootstrap1.min.css" rel="stylesheet">#}
+    <link href="/static/css/upload-plugin/fileinput.min.css" rel="stylesheet">
+    <link href="/static/css/upload-plugin/jquery.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block bucket-manage-head %}
+    <div class="span12" >
+						<!-- BEGIN STYLE CUSTOMIZER -->
+						<div style="float: right;padding: 10px">
+                            {% ifequal create_info.zonename 'beijing' %}
+
+                                <p style="color: #8c8c8c">存储区域 : 北京     容量:2Byte</p>
+                            {% else  %}
+                            {% ifequal create_info.zonename 'shijiazhuang'%}
+                                <p style="color: #8c8c8c">存储区域 : 石家庄   容量:2Byte</p>
+                            {% endifequal %}
+                            {% endifequal %}
+
+                            <p style="color: #8c8c8c">创建时间 : {{ create_info.createdate }}</p>
+						</div>
+						<!-- END BEGIN STYLE CUSTOMIZER -->
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+
+                        <h3 class="page-title">
+                            <i class="icon-bitbucket" style="color:  yellowgreen"></i>
+							{{ bucket_name }}
+						</h3>
+                        <hr>
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+{% endblock %}
+{% block bucket-manage-content %}
+    <div class=" span6" style="margin-left: 10px;margin-top: 16px;width: 95%">
+        <div class="portlet-title">
+
+            <div class="caption"><i class="icon-bitbucket-sign"></i>Object管理</div>
+
+            <!-- 上传功能-->
+
+                <label class="control-label">Select File</label>
+                <input id="input-4" name="input4[]" type="file" multiple class="file-loading">
+
+            <!-- 上传功能结束-->
+
+
+            
+            <div class="tools">
+
+                <a href="#" class="btn green mini" style="height: 23px;"><i class="icon-plus"></i> 新建文件夹</a>
+                <a href="#" class="btn green mini" style="height: 23px;"><i class="icon-plus"></i> 新建文件夹</a>
+
+
+            </div>
+
+        </div>
+
+        <div class="portlet-body">
+
+            <table class="table table-striped table-bordered table-advance table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th><i class="icon-briefcase"></i> Company</th>
+
+                        <th class="hidden-phone"><i class="icon-user"></i> Contact</th>
+
+                        <th><i class="icon-shopping-cart"></i> Total</th>
+
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td class="highlight">
+
+                            <div class="success"></div>
+
+                            <a href="#">RedBull</a>
+
+                        </td>
+
+                        <td class="hidden-phone">Mike Nilson</td>
+
+                        <td>2560.60$</td>
+
+                        <td><a href="#" class="btn mini purple"><i class="icon-edit"></i> Edit</a></td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td class="highlight">
+
+                            <div class="info"></div>
+
+                            <a href="#">Google</a>
+
+                        </td>
+
+                        <td class="hidden-phone">Adam Larson</td>
+
+                        <td>560.60$</td>
+
+                        <td><a href="#" class="btn mini black"><i class="icon-trash"></i> Delete</a></td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td class="highlight">
+
+                            <div class="important"></div>
+
+                            <a href="#">Apple</a>
+
+                        </td>
+
+                        <td class="hidden-phone">Daniel Kim</td>
+
+                        <td>3460.60$</td>
+
+                        <td><a href="#" class="btn mini purple"><i class="icon-edit"></i> Edit</a></td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td class="highlight">
+
+                            <div class="warning"></div>
+
+                            <a href="#">Microsoft</a>
+
+                        </td>
+
+                        <td class="hidden-phone">Nick </td>
+
+                        <td>2560.60$</td>
+
+                        <td><a href="#" class="btn mini blue"><i class="icon-share"></i> Share</a></td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+{% endblock %}
+
+
+{% block page-scripts-start %}
+    <script src="/static/js/upload-plugin/plugins/sortable.min.js"></script>
+
+    <script src="/static/js/upload-plugin/plugins/purify.min.js"></script>
+
+    <script src="/static/js/upload-plugin/plugins/canvas-to-blob.min.js"></script>
+
+    <script src="/static/js/upload-plugin/fileinput.min.js"></script>
+    <script src="/static/js/upload-plugin/bootstrap.min.js"></script>
+{% endblock %}
+
+{% block footer-js-extend0 %}
+
+{% endblock %}
+
+{% block init-plugins %}
+
+{% endblock %}
+{% block init-extend %}
+        $("#input-4").fileinput({
+                language: 'zh',
+                uploadUrl: "/FileUpload/Upload",
+                allowedFileExtensions : ['jpg', 'png','gif'],
+                maxFileCount: 100,
+                enctype: 'multipart/form-data',
+                showUpload: true,
+                showCaption: true,
+                browseClass: "btn btn-primary",
+                previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+                msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+    });
+
+{% endblock %}
+
+{% block oss-extend %}
+{% endblock %}
+

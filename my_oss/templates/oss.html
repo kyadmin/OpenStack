@@ -1,0 +1,557 @@
+{% extends 'index.html' %}
+
+{% block head-extension %}
+    {% block head-extension-oss0 %}
+    <link href="/static/css/oss/bootstrap-fileupload.css" rel="stylesheet" type="text/css">
+	<link href="/static/css/oss/chosen.css" rel="stylesheet" type="text/css">
+	<link href="/static/css/oss/profile.css" rel="stylesheet" type="text/css">
+    {% endblock %}
+    {% block head-extension-oss1 %}
+    <style>
+        a:hover{
+            text-decoration: none;
+        }
+        ul.sub-menu1 > li > a:hover {
+{#            background: #bbbbbb !important;#}
+            background: #d8d8d8 !important;
+        }
+        ul.sub-menu1 > li > a {
+            font-size: 16px;
+        }
+        ul.sub-menu1 > li > a {
+          display: block;
+          margin: 0px 0px 0px -25px;
+          padding: 5px 0px;
+          padding-left: 25px !important;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 300;
+          background: none;
+        }
+        .lively {
+          margin: 0px 0px 0px -25px;
+          padding-left: 25px !important;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 300;
+          background: #ffffff !important;
+        }
+        .sub-content-up {
+            padding: 50px;
+            padding-left: 10px;
+            font-size: 20px;
+        }
+        li#resource ~ li {
+            display: none;
+        }
+
+    </style>
+    {% endblock %}
+
+{% endblock %}
+
+
+
+
+{% block page-container-extend %}row-fluid{% endblock %}
+{% block page %}
+    <div id="page-content" class="page-content" style="min-height:1071px !important;">
+			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+            <div id="page-content-show" style="z-index: 2">
+                <div style="background-color:#dddddd;float: left;min-height:1071px !important">
+                    <div style="padding: 20px">
+                        <p><h3>对象存储</h3></p>
+                    </div>
+                    <div>
+                        <ul class="sub-menu1" style="list-style-type: none">
+                            <li id="overview" class="lively" >
+                                <a href="{% url 'oss' %}" style="font-size: 16px">概览</a>
+                            </li>
+                            <li id="resource">
+                                <a href="javascript:;">
+                                    <div style="margin-left: -23px;font-size: 16px">
+                                        <i class="icon-caret-right"></i>
+                                        <span >资源监控报表</span>
+                                    </div>
+                                </a>
+
+                            </li>
+                            <li>
+
+                                <a href="javascript:;">
+
+                                基础资源监控</a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="javascript:;">
+
+                                PV/UV总量</a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="javascript:;">
+
+                                ISP统计</a>
+
+                            </li>
+                            <li>
+
+                                <a href="javascript:;">
+
+                                地区统计</a>
+
+                            </li>
+                            <li >
+
+                                <a href="javascript:;">
+
+                                Bucket统计</a>
+
+                            </li>
+                            <li >
+
+                                <a href="javascript:;">
+
+                                Object统计</a>
+
+                            </li>
+                            <li >
+
+                                <a href="javascript:;">
+
+                                地区统计</a>
+
+                            </li>
+                            <li >
+
+                                <a href="javascript:;">
+
+                                IP统计</a>
+
+                            </li>
+                            <li >
+
+                                <a href="javascript:;">
+
+                                Referer统计</a>
+
+                            </li>
+                            <li >
+
+                                <a href="javascript:;">
+
+                                搜过引擎统计</a>
+
+                            </li>
+                            <li >
+
+                                <a href="javascript:;">
+
+                                返回码统计</a>
+
+                            </li>
+                            <li >
+
+                                <a href="javascript:;">
+
+                                使用说明</a>
+
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+
+                <!-- BEGIN PAGE CONTAINER-->
+
+                <div id="sub-content" class="sub-content" style="margin-left: 150px">
+                    {% block bucket-manage-head %}
+                        <div class="sub-content-up">
+                            概览
+                            <hr/>
+                        </div>
+                    {% endblock %}
+        {#                <div class="sub-content-down" style="margin-left: 10px">#}
+                           <!--right-->
+                    {% block bucket-manage-content %}
+                        <div class="span6" style="margin-left: 10px;margin-top: -40px;width: 70%">
+
+                                <!-- BEGIN SAMPLE TABLE PORTLET-->
+
+                                <div class="portlet box green">
+
+                                    <div class="portlet-title">
+
+                                        <div class="caption"><i class="icon-cogs"></i>Bucket</div>
+
+                                        <div class="tools">
+                                            <a href="javascript:;" class="btn green mini" onclick="locking()"><i class="icon-plus"></i> 新建Bucket</a>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="portlet-body">
+
+                                        <table class="table table-hover">
+
+                                            <thead>
+
+                                                <tr>
+
+                                                    <th>#</th>
+
+                                                    <th>Bucket名称</th>
+
+                                                    <th>地域</th>
+
+                                                    <th class="hidden-480">创建时间</th>
+
+                                                    <th>操作</th>
+
+                                                </tr>
+
+                                            </thead>
+
+                                            <tbody id="tbody">
+                                                {% for i in bucket_list %}
+                                                    <tr>
+
+                                                        <td id="{{ forloop.counter }}">{{ forloop.counter }}</td>
+
+                                                        <td  id="{{ i.bucketname }}" name="{{ i.bucketname }}">
+                                                            <a href="{% url 'bucket_manage' %}?bucketname={{ i.bucketname }}" name="{{ i.bucketname }}" class="bucket-name">{{ i.bucketname }}</a>
+                                                        </td>
+                                                        <td name="{{ i.zonename }}">
+                                                            {% ifequal i.zonename 'beijing' %}
+                                                            北京
+                                                            {% else  %}
+                                                                {% ifequal i.zonename 'shijiazhuang'%}
+                                                                    石家庄
+                                                                {% endifequal %}
+                                                            {% endifequal %}
+                                                        </td>
+
+                                                        <td name="{{ i.createdate }}" class="hidden-480">{{ i.createdate }}</td>
+
+                                                        <td style="display: none" name="{{ i.access }}"></td>
+
+                                                        <td >
+                                                            <a  name="{{ i.bucketname }}" href="#" class="btn mini purple" style="height: 23px">
+                                                                <i class="icon-edit" ></i> 设置
+                                                            </a>
+                                                            <a href="#" class="btn mini black" style="height: 23px">
+                                                                <i class="icon-trash"></i> 删除
+                                                            </a>
+                                                            <a class="btn mini yellow" style="height: 23px">
+                                                                <i class="icon-search"></i>浏览
+                                                            </a>
+                                                        </td>
+
+                                                    </tr>
+                                                {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                        {% if tags %}
+                                            <p style="color: red">Bucket数量超过上限</p>
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+
+                                <!-- END SAMPLE TABLE PORTLET-->
+
+                        </div>
+                            <!--end left-->
+
+                        <!-- BEGIN LOCK ADD BUCKET-->
+
+                        <!-- END LOCK ADD BUCKET-->
+                    {% endblock %}
+                </div>
+
+            </div>
+            <div id='add-bucket' style="width: 660px;display: none;position: fixed; margin-left: 230px;margin-top: -161px; z-index: 3" class="portlet box blue">
+							<div class="portlet-title">
+
+								<div class="caption"><i class="icon-reorder"></i>新建Bucket</div>
+
+								<div class="tools">
+
+									<a href="javascript:;" onclick="lock_checkform()">关闭</a>
+
+								</div>
+
+							</div>
+
+							<div class="portlet-body form">
+
+								<!-- BEGIN FORM-->
+
+								<form id="create-bucket" action="{% url 'add_bucket' %}" class="form-horizontal" method="post" >{% csrf_token %}
+
+									<div class="control-group">
+
+										<label class="control-label">BucketName</label>
+
+										<div class="controls">
+
+											<input type="text" class="span6 m-wrap" id="bucketname" name="bucketname" onblur="check_bucket(this)">
+                                            <p id="input-err" style="color:red"></p>
+                                            <p>
+											<span class="help-inline">Bucket命名规范： </span>
+                                            <br>
+                                            <span class="help-inline">» 1. 只能包含小写字母，数字和短横线</span>
+                                            <br>
+                                            <span class="help-inline">» 2. 必须以小写字母和数字开头和结尾</span>
+                                            <br>
+                                            <span class="help-inline">» 3. bucketName的长度限制在3-63之间</span>
+                                            </p>
+
+										</div>
+
+									</div>
+
+									<div class="control-group">
+
+										<label class="control-label">所属区域</label>
+
+										<div class="controls">
+
+											<select id="zonename" name="zonename" class="span6 m-wrap" data-placeholder="Choose a Category" tabindex="1">
+
+												<option value="beijing" selected="selected">北京</option>
+
+												<option value="shijiazhuang">石家庄</option>
+											</select>
+                                            <p>
+                                                <span class="help-inline">相同地域内的产品内网可以互通；订购后不支持更换地域，请谨慎选择</span>
+                                            </p>
+
+										</div>
+
+									</div>
+
+                                    <div class="control-group">
+
+										<label class="control-label">读写权限</label>
+
+										<div class="controls">
+
+											<select id="access" name="access" class="span6 m-wrap" data-placeholder="Choose a Category" tabindex="1">
+												<option value="private" selected="selected">私有</option>
+
+												<option value="public-read">公共读</option>
+
+												<option value="public-read-write">公共读写</option>
+
+											</select>
+                                            <p>
+                                                <span class="help-inline">» 私有：对object的所有访问操作需要进行身份验证。</span>
+                                                <br>
+                                                <span class="help-inline">» 公共读：对object写操作需要进行身份验证；可以对object进行匿名读。</span>
+                                                <br>
+                                                <span class="help-inline">» 公共读写：所有人都可以对object进行读写操作。</span>
+                                            </p>
+
+										</div>
+
+									</div>
+
+									<div class="form-actions">
+                                        <div style="margin-left: 70%">
+                                            <button type="button" class="btn blue" onclick="create_bucket()">提交</button>
+
+                                            <button type="button" class="btn" onclick="lock_checkform()">取消</button>
+                                        </div>
+									</div>
+
+								</form>
+
+								<!-- END FORM-->
+
+							</div>
+
+						</div>
+			<!-- END PAGE CONTAINER-->
+    </div>
+
+{% endblock %}
+
+
+
+{% block page-plugins %}
+{% endblock %}
+{% block page-scripts %}
+{% endblock %}
+{% block page-init-scripts %}
+{% endblock %}
+
+{% block footer-js-extend0 %}
+
+
+	<script type="text/javascript" async="" src="/static/js/oss/dc.js"></script>
+
+
+	<!-- BEGIN PAGE LEVEL PLUGINS -->
+
+	<script type="text/javascript" src="/static/js/oss/bootstrap-fileupload.js"></script>
+
+	<script type="text/javascript" src="/static/js/oss/chosen.jquery.min.js"></script>
+
+	<!-- END PAGE LEVEL PLUGINS -->
+
+	<!-- BEGIN PAGE LEVEL SCRIPTS -->
+
+	<script src="/static/js/oss/app.js"></script>
+	<!-- END JAVASCRIPTS -->
+
+<script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-37564768-1']);  _gaq.push(['_setDomainName', 'keenthemes.com']);  _gaq.push(['_setAllowLinker', true]);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script>
+{% endblock %}
+{% block footer-js-extend1 %}
+{% endblock %}
+
+{% block footer-js-extend2 %}
+        <script type="text/javascript">
+            function locking() {
+                   var x=$("#add-bucket")
+                   $("#add-bucket").css('display',"block")
+
+                   $("#page-content-show").css('opacity','0.3')
+
+                   $("#page-sidebar").css('opacity','0.3')
+
+               }
+            function lock_checkform(theForm){
+                   $("#add-bucket").css('display',"none")
+                   $("#page-content-show").css('opacity','')
+
+                   $("#page-sidebar").css('opacity','')
+            }
+            function check_bucket(ths) {
+                var bucket_name=ths.value
+                console.log(bucket_name)
+                if ( bucket_name == ''){
+                   $("#input-err").html("<b>Bucket名不能为空</b>");
+                   $("#bucketname").css("border-color","red")
+                   $("#create-bucket").attr("onsubmit","return false")
+                   return false;
+                }
+
+                $.get("{% url 'check_bucket' %}",{'bucket_name':bucket_name},function(res){
+                    console.log(res)
+                    if (res == 'conflict') {
+                        $("#input-err").html("<b>该Bucket已存在或被其他用户占用</b>");
+                        $("#bucketname").css("border-color", "red")
+                        $("#create-bucket").attr("onsubmit", "return false")
+                        return false;
+                    }
+                }
+                )
+
+            }
+            function input_check(ths){
+                    var str=ths.value
+                    var myReg1 = /[@\/\'\\\"#$%&\^\*]/;
+                    var myReg2 = /[^a-z0-9\_\-]/;
+{#                    if(myReg.test(str)) $("#input-err").innerHTML='输入字符串非法';#}
+                    if(myReg1.test(str) || myReg2.test(str))
+                    {
+                        console.log('err')
+                       $("#input-err").html("<b>输入字符串非法</b>");
+                       $("#bucketname").css("border-color","red")
+                       $("#create-bucket").attr("onsubmit","return false")
+                        return false;
+                    }
+                    else if( str.length < 3 || str.length > 63 ) {
+                       $("#input-err").html("<b>字符串长度非法</b>");
+                       $("#bucketname").css("border-color","red")
+                       $("#create-bucket").attr("onsubmit","return false")
+                        return false;
+
+                    }
+                    else
+                    {
+                        $("#input-err").html("");
+                        $("#bucketname").css("border-color","")
+                        $("#create-bucket").attr("onsubmit","return true")
+                        return true;
+                    }
+
+            }
+            function create_bucket () {
+                var bucketname=$("#bucketname").val()
+                var zonename=$("#zonename").val()
+                var access=$("#access").val()
+                console.log(zonename)
+                console.log(access)
+                $.get("{% url 'add_bucket' %}",{'bucketname':bucketname,'zonename':zonename,'access':access}, function(res1){
+                    console.log(res1);
+                    window.location.reload()
+
+                }
+                )
+            }
+
+            $(document).ready(function () {
+               $(".sub-menu1 li a").click(function () {
+                        console.log(this)
+                        $(this).parent().addClass("lively").siblings().removeClass('lively');
+               })//
+               $("#bucketname").bind('input propertychange',function () {
+                   input_check(this)
+               })
+               $("#resource a").click(function () {
+                   var ths=$("#resource a i")
+                   var ths_next=$("#resource ~ li")
+                   if (ths.hasClass("icon-caret-right")){
+                       ths.removeClass('icon-caret-right').addClass("icon-caret-down")
+                       ths_next.css('display','block')
+                   }
+                   else {
+                       ths.removeClass('icon-caret-down').addClass("icon-caret-right")
+                       ths_next.css('display','none')
+                   }
+
+               })
+{#               $("#resource ~ li a").click(function () {#}
+{#                   console.log(this)#}
+{#               })#}
+
+               $(".bucket-name1").click(function () {
+                   var b_id=$(this).attr('name')
+                   var bucketname=$("#"+b_id).attr('name')
+                   var zonename=$("#"+b_id).next().attr('name')
+                   var create_date=$("#"+b_id).next().next().attr('name')
+                   var access=$("#"+b_id).next().next().next().attr('name')
+                   console.log(bucketname)
+                   console.log(zonename)
+                   console.log(create_date)
+
+                   $.get("{% url 'bucket_manage' %}",{'bucketname':bucketname,'zonename':zonename,'create_date':create_date,'access':access},function(res2){
+                        console.log(res2)
+                        $('#sub-content').css('display','none')
+                        $('#bucket-manage').css('display','block')
+                   }
+                   )
+
+               })
+
+                {% block init-extend %}
+                {% endblock %}
+            });
+    </script>
+    {% block oss-extend %}
+    {% endblock %}
+{% endblock %}
+
+

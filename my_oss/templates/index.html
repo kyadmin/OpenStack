@@ -1,0 +1,609 @@
+{% extends 'base.html' %}
+{% block title %}
+    壹号车网OSS
+{% endblock %}
+
+{% block head-extension %}
+
+
+{% endblock %}
+
+{% block logo-path %}
+    /static/images/logo.png
+{% endblock %}
+
+{% block notifications %}
+    <li class="dropdown" id="header_notification_bar">
+
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                        <i class="icon-warning-sign"></i>
+                        <span class="badge">6</span>
+
+                        </a>
+
+                        <ul class="dropdown-menu extended notification">
+
+                            <li>
+
+                                <p>You have 14 new notifications</p>
+
+                            </li>
+
+                            <li>
+
+                                <a href="#">
+
+                                <span class="label label-success"><i class="icon-plus"></i></span>
+
+                                New user registered.
+
+                                <span class="time">Just now</span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="#">
+
+                                <span class="label label-important"><i class="icon-bolt"></i></span>
+
+                                Server #12 overloaded.
+
+                                <span class="time">15 mins</span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="#">
+
+                                <span class="label label-warning"><i class="icon-bell"></i></span>
+
+                                Server #2 not respoding.
+
+                                <span class="time">22 mins</span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="#">
+
+                                <span class="label label-info"><i class="icon-bullhorn"></i></span>
+
+                                Application error.
+
+                                <span class="time">40 mins</span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="#">
+
+                                <span class="label label-important"><i class="icon-bolt"></i></span>
+
+                                Database overloaded 68%.
+
+                                <span class="time">2 hrs</span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="#">
+
+                                <span class="label label-important"><i class="icon-bolt"></i></span>
+
+                                2 user IP blocked.
+
+                                <span class="time">5 hrs</span>
+
+                                </a>
+
+                            </li>
+
+                            <li class="external">
+
+                                <a href="#">See all notifications <i class="m-icon-swapright"></i></a>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+{% endblock %}
+{% block messages %}
+    <li class="dropdown" id="header_inbox_bar">
+
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                        <i class="icon-envelope"></i>
+
+                        <span class="badge">5</span>
+
+                        </a>
+
+                        <ul class="dropdown-menu extended inbox">
+
+                            <li>
+
+                                <p>You have 12 new messages</p>
+
+                            </li>
+
+                            <li>
+
+                                <a href="inbox.html?a=view">
+
+                                <span class="photo"><img src="/static/images/avatar2.jpg" alt="" /></span>
+
+                                <span class="subject">
+
+                                <span class="from">Lisa Wong</span>
+
+                                <span class="time">Just Now</span>
+
+                                </span>
+
+                                <span class="message">
+
+                                Vivamus sed auctor nibh congue nibh. auctor nibh
+
+                                auctor nibh...
+
+                                </span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="inbox.html?a=view">
+
+                                <span class="photo"><img src="/static/images/avatar3.jpg" alt="" /></span>
+
+                                <span class="subject">
+
+                                <span class="from">Richard Doe</span>
+
+                                <span class="time">16 mins</span>
+
+                                </span>
+
+                                <span class="message">
+
+                                Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh
+
+                                auctor nibh...
+
+                                </span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="inbox.html?a=view">
+
+                                <span class="photo"><img src="/static/images/avatar1.jpg" alt="" /></span>
+
+                                <span class="subject">
+
+                                <span class="from">Bob Nilson</span>
+
+                                <span class="time">2 hrs</span>
+
+                                </span>
+
+                                <span class="message">
+
+                                Vivamus sed nibh auctor nibh congue nibh. auctor nibh
+
+                                auctor nibh...
+
+                                </span>
+
+                                </a>
+
+                            </li>
+
+                            <li class="external">
+
+                                <a href="inbox.html">See all messages <i class="m-icon-swapright"></i></a>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+{% endblock %}
+{% block tasks-list %}
+    <li class="dropdown" id="header_task_bar">
+
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                        <i class="icon-tasks"></i>
+
+                        <span class="badge">5</span>
+
+                        </a>
+
+                        <ul class="dropdown-menu extended tasks">
+
+                            <li>
+
+                                <p>You have 12 pending tasks</p>
+
+                            </li>
+
+                            <li>
+
+                                <a href="#">
+
+                                <span class="task">
+
+                                <span class="desc">New release v1.2</span>
+
+                                <span class="percent">30%</span>
+
+                                </span>
+
+                                <span class="progress progress-success ">
+
+                                <span style="width: 30%;" class="bar"></span>
+
+                                </span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="#">
+
+                                <span class="task">
+
+                                <span class="desc">Application deployment</span>
+
+                                <span class="percent">65%</span>
+
+                                </span>
+
+                                <span class="progress progress-danger progress-striped active">
+
+                                <span style="width: 65%;" class="bar"></span>
+
+                                </span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="#">
+
+                                <span class="task">
+
+                                <span class="desc">Mobile app release</span>
+
+                                <span class="percent">98%</span>
+
+                                </span>
+
+                                <span class="progress progress-success">
+
+                                <span style="width: 98%;" class="bar"></span>
+
+                                </span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="#">
+
+                                <span class="task">
+
+                                <span class="desc">Database migration</span>
+
+                                <span class="percent">10%</span>
+
+                                </span>
+
+                                <span class="progress progress-warning progress-striped">
+
+                                <span style="width: 10%;" class="bar"></span>
+
+                                </span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="#">
+
+                                <span class="task">
+
+                                <span class="desc">Web server upgrade</span>
+
+                                <span class="percent">58%</span>
+
+                                </span>
+
+                                <span class="progress progress-info">
+
+                                <span style="width: 58%;" class="bar"></span>
+
+                                </span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="#">
+
+                                <span class="task">
+
+                                <span class="desc">Mobile development</span>
+
+                                <span class="percent">85%</span>
+
+                                </span>
+
+                                <span class="progress progress-success">
+
+                                <span style="width: 85%;" class="bar"></span>
+
+                                </span>
+
+                                </a>
+
+                            </li>
+
+                            <li class="external">
+
+                                <a href="#">See all tasks <i class="m-icon-swapright"></i></a>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+{% endblock %}
+
+{#右上角用户配置#}
+{% block user-image-path %}/static/images/users/lhf.jpeg{% endblock %}
+{% block username %}{{ request.user }}{% endblock %}
+{% block userprofile %}
+<li><a href="{% url 'user_profile' %}"><i class="icon-user"></i> 用户配置</a></li>
+{% endblock %}
+{% block calendar %}
+<li><a href="page_calendar.html"><i class="icon-calendar"></i> 日历</a></li>
+{% endblock %}
+{% block inbox %}
+<li><a href="inbox.html"><i class="icon-envelope"></i> 收件箱(3)</a></li>
+{% endblock %}
+{% block tasks %}
+<li><a href="#"><i class="icon-tasks"></i> 任务</a></li>
+{% endblock %}
+<li class="divider"></li>
+{% block lock-screen %}
+<li><a href="{% url 'lock_screen' %}"><i class="icon-lock"></i> 锁屏</a></li>
+{% endblock %}
+{% block log-out %}
+<li><a href="{% url 'acount_logout' %}"><i class="icon-key"></i> 退出登录</a></li>
+{% endblock %}
+
+
+{% block sidebar-menu %}
+    {% block hidden-phone %}
+        <li>
+
+        <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+
+        <div class="sidebar-toggler hidden-phone"></div>
+
+        <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+
+    </li>
+    {% endblock %}
+    {% block search %}
+        <li>
+
+        <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+
+        <form class="sidebar-search">
+
+            <div class="input-box">
+
+                <a href="javascript:;" class="remove"></a>
+
+                <input type="text" placeholder="查询..." />
+
+                <input type="button" class="submit" value=" " />
+
+            </div>
+
+        </form>
+
+        <!-- END RESPONSIVE QUICK SEARCH FORM -->
+
+    </li>
+    {% endblock %}
+    {% block dashboard %}
+        <li class="start active ">
+
+        <a href="/">
+
+        <i class="icon-home"></i>
+
+        <span class="title">Dashboard</span>
+
+        <span class="selected"></span>
+
+        </a>
+
+    </li>
+    {% endblock %}
+    {% block form %}
+		<li class="">
+
+					<a href="javascript:;">
+
+					<i class="icon-cloud"></i>
+
+					<span class="title">产品与服务</span>
+
+					<span class="arrow "></span>
+
+					</a>
+
+					<ul class="sub-menu "  {% if active_1 %}style="display: block" {% endif %}>
+
+						<li >
+
+							<a href="#">
+
+							云服务器ECS</a>
+
+						</li>
+
+						<li>
+
+							<a href="#">
+
+							云数据库RDS版</a>
+
+						</li>
+
+						<li >
+
+							<a href="#">
+
+							负载均衡</a>
+
+						</li>
+
+						<li {% ifequal active_1 'oss' %}class="active" {% endifequal %}>
+
+							<a  href="{% url 'oss' %}" >
+
+							对象存储OSS</a>
+
+						</li>
+
+						<li >
+
+							<a href="#">
+
+							Form Validation</a>
+
+						</li>
+
+						<li >
+
+							<a href="#">
+
+							Multiple File Upload</a>
+
+						</li>
+
+						<li >
+
+							<a href="#">
+
+							Dropzone File Upload</a>
+
+						</li>
+
+					</ul>
+
+				</li>
+    {% endblock %}
+    {% block extra %}
+                    <li class="">
+
+                        <a href="javascript:;">
+
+                        <i class="icon-user"></i>
+
+                        <span class="title">用户中心</span>
+
+                        <span class="arrow "></span>
+
+                        </a>
+
+                        <ul class="sub-menu" {% if active_2 %}style="display: block" {% endif %}>
+
+                            <li  {% ifequal active_2 'user_profile' %}class="active" {% endifequal %}>
+
+                                <a href="{% url 'user_profile' %}">
+
+                                账号管理</a>
+
+                            </li>
+
+                            <li >
+
+                                <a href="{% url 'lock_screen' %}">
+
+                                锁屏</a>
+
+                            </li>
+
+                            <li >
+
+                                <a href="#">
+
+                                Inbox</a>
+
+                            </li>
+
+                            <li >
+
+                                <a href="#">
+
+                                Search Results</a>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+                    {% endblock %}
+{% endblock %}
+
+{% block footer-js-extend1 %}
+    <script type="text/javascript">
+            $(document).ready(function () {
+               $(".sub-menu li a").click(function () {
+                        $(this).parent().addClass("active").siblings().removeClass('active');
+                        console.log(this);
+               })//
+            });
+    </script>
+{% endblock %}
+
+
